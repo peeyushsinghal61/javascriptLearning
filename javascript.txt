@@ -1,0 +1,332 @@
+if no dependency array =>useEffect is called on every render. 
+if dependency array is empty=[] =>useEffect is called on initial render (just once / after first render). 
+if dependency array is =[someDependency] =>useEffect is called every time when someDependency updated.
+Javascript is synchronous single threaded language.
+
+createBrowserRouter - it creates an app router, it have array of objects and each object have have path and element. It is used to create routing configurations.
+RouterProvider- help to provide routing configutation to the application.
+useRouteError - it is hook provided by react router dom that will more info about route error
+Client side routing- no need to make call to server to fetch html
+Server side routing- network call is made to fetch html from server
+
+new features are coming to JS every day, and all the browsers may not support that feature at the same time or some of the application my not have the latest browser. So for that we meet polyfills, to implement that feature. So we can say, polyfill is a fallback for all those functionalites that are not supported by browser.
+
+forEach and map are used to traverse the whole array . Map returns a  modified array while forEach returns undefined/nothing
+
+In JavaScript, the scope of this in an arrow function is the enclosing lexical scope, or the parent scope
+
+
+//question -- call printAnimals such that it prints all the animals from the object.
+const animals=[{species:"lion",name:"king"},{species:"whale",name:"queen"}];
+function printAnimals(i){
+    this.print=function(){
+        console.log("#"+i+" "+this.species+":"+this.name)
+    };
+    this.print();
+}
+
+//solution
+for(let i=0;i<animals.length;i++){
+    printAnimals.call(animals[i],i);
+}
+
+// append , minimum , maximum in an array using apply
+let a=[0,1,2,3,4,5];
+let b=[6,7,9,8];
+
+const maxi=Math.max.apply(null,a) 
+const mini=Math.min.apply(null,a) 
+const mergedArray=Array.prototype.push.apply(b,a)
+console.log(b)
+console.log(mini)
+console.log(maxi)
+
+// bind chaining
+function f(){
+    console.log(this.name);
+}
+
+f=f.bind({name:"John"}).bind({name:"annie"});
+f()  // annie ---> wrong answer   function which is bound by bind keyword can not we rebound.
+     // John  ===> right answer   
+
+// question
+function checkPassword(success,failed){
+    let password=prompt("password?","");
+    if(password==="abc"){
+        success();
+    }
+    else failed();
+}
+let user={
+    name:"Peeyush Singhal",
+    loginSuccessful(){
+        console.log(`${this.name} logged in`)
+    },
+    loginfailed(){
+        console.log(`${this.name} failed to log in`)
+    } 
+}
+checkPassword(user.loginSuccessful.bind(user),user.loginfailed.bind(user))
+
+// question
+function checkPassword(ok,fail){
+    let password=prompt("password?","");
+    if(password==="abc"){
+        ok();
+    }
+    else fail();
+}
+let user={
+    name:"Peeyush Singhal",
+    login(result){
+        //console.log(this)
+        console.log(`${this.name}+${result?"login successful":"login failed"}`)
+    }
+}
+checkPassword(user.login.bind(user,true),user.login.bind(user,false))
+
+// question
+const age=10;
+var person={name:"Peeyush Singhal",age:20,getAgeArrow:()=>{console.log(this.age)},getAge:function(){console.log(this.age)}};
+
+var person2={age:22};
+person.getAgeArrow.call(person2); // undefined
+person.getAge.call(person2);  // 22
+
+
+Debouncing and Throttling both are used for web app optimisation.It happens by limiting the rate of execution of particular function.
+Debouncing--if time differnce between 2 keypress event is greater than particular time.this will reduce the api calls.
+Throttling--  differnce between 2 api calls should be greater than the given particular time.
+
+//Debouncing is useful when you want to delay the execution of your code until the user stops performing a certain action.
+//Throttling is useful when you want to limit the execution of your code to a certain frequency. For example, you can use throttling for resize, where you want to update the layout of your page at a fixed rate. 
+
+// javascript executes synchronus code first then asynchronus code.
+// promise combinatiors helps us to execute more than one promise at one time. there are 4 types of promise combinatiors.
+1. promise.all --> we pass an array of promises, and  if any one of the promise fails then won't return  any promise.
+2. promise.race --> return first promise that is fulfill or rejected.
+3. promise.allSettled--> if one of the promise fails then also it will return an array of all settled promises and unsettled promises.
+4.promise.any --> only returns the first fullfilled promise and ignore all rejected promises.
+
+// https://medium.com/@darediP/different-static-methods-of-promises-all-allsettled-any-race-933ba3c378c4    (promises static methods)
+promise's Static methods are mainly used to handle concurrent promises.
+
+
+how to use useEffect for componentdidunmount
+
+
+// Pure components::
+In React, Pure Components are a type of component that optimize performance by minimizing unnecessary re-renders. A Pure Component only re-renders when its props or state change in a way that affects the component's output. This is achieved by implementing a shallow comparison of the component's props and state.
+
+Characteristics of a Pure Component:
+Shallow Prop and State Comparison: A Pure Component automatically performs a shallow comparison of the current and next props and state. If neither has changed (i.e., they are the same), it skips re-rendering.
+Avoids Unnecessary Renders: Since React doesn't re-render Pure Components unless necessary, it can improve performance, especially in large or complex UIs.
+
+import React from 'react';
+const MyComponent = React.memo(function MyComponent({ text }) {
+  return <div>{text}</div>;
+});
+
+// pure functions 
+pure functions are functions that have the following key characteristics:
+
+Deterministic: A pure function always produces the same output for the same input. It does not rely on any external state or variables. For example, if you call the function with the same arguments multiple times, it will return the same result each time.
+
+No Side Effects: A pure function does not modify any external state or variables. It does not interact with or change any data outside of the function itself (e.g., no modifying global variables, no writing to databases, no updating the DOM, etc.).
+// pure function
+function add(a, b) {
+  return a + b;
+}
+// impure function =-
+let counter = 0;
+function incrementCounter() {
+  counter += 1;  // modifies an external variable
+  return counter;
+}
+increment is impure because it modifies the external variable counter, and its result depends on this external state.
+
+// Higher Order Component
+In React, a Higher-Order Component (HOC) is a function that takes a component and returns a new component with additional props or functionality. HOCs are a pattern used to reuse component logic.
+
+Key Characteristics of Higher-Order Components:
+Reusability: HOCs allow you to reuse logic across multiple components. Instead of duplicating code, you can extract common behavior into an HOC and apply it to different components.
+Pure Function: HOCs are pure functions, meaning they don’t mutate the original component or state. They only modify the props and behavior passed to the component.
+
+//state and stateless component
+stateless -->A stateless component (also called a presentational component) is a component that does not manage its own state. Instead, it receives data and behavior as props from its parent and is typically focused on rendering UI elements.
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+ stateful component: A stateful component is a component that manages its own state. It can track and update data that can change over time.
+ import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const increment = () => {
+    setCount(count + 1);
+  };
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+
+//life cycle methods in class based components
+class components come with lifecycle methods like componentDidMount, componentDidUpdate, and componentWillUnmount to handle various stages of a component's lifecycle.
+
+componentDidMount equivalent to : useEffect(() => {
+    // This code runs only once, when the component mounts
+    console.log('Component mounted!');
+    // Perform any setup, such as fetching data here.
+  }, []);
+
+  componentDidUpdate equivalent to: useEffect(() => {
+    // This code runs when 'count' changes (after the component updates)
+    console.log('Component updated! Count:', count);
+  }, [count]);
+
+componentWillUnmount equivalent to: useEffect(() => {
+    // Set up side effect (e.g., subscribing to an event or setting a timer)
+    const timer = setInterval(() => console.log('Timer running'), 1000);
+
+    // Cleanup function (this runs when the component unmounts)
+    return () => {
+      clearInterval(timer); // Cleanup the timer when the component unmounts
+      console.log('Cleanup on unmount');
+    };
+  }, []); 
+
+  useEffect(()=>{}) --> in this situation useEffect will be called again on each render.
+
+
+// Closure 
+Key Characteristics of Closures:
+1. Access to Outer Variables: A closure gives a function access to variables from its outer scope (lexical environment), even after the outer function has executed.
+2. Encapsulation: Closures can help in creating private variables and functions, offering better encapsulation in JavaScript.
+3. Memory Retention: Closures allow functions to "remember" and access the variables from their creation context even after they are called outside of that context.
+
+React.memo is used to memoize the component itself, preventing unnecessary re-renders when the props haven't changed.
+useMemo is used for memoizing values inside a component (like calculations or derived data) to avoid recomputation unless specific dependencies change.
+
+change in parent --> both parent and child rerender.  // general scenario
+change in child--> only child will rerender.   // general scenario
+
+If you want that child should not rerender when parent changes then React.memo(child)
+but if have passed some props from parent to child and child is updateing thode props then both parent and and child will rerender even if we are using React.memo(child). To avoid this we can use useCallback function to memoise the function we have passed as prop from aprent to child.
+
+
+// 1. useCallback
+useCallback is used to memoize functions so that the function reference doesn't change on every render. This is particularly useful when passing functions to child components, or when using a function as a dependency in useEffect or other hooks.
+
+When to use:
+1. When you need to ensure that a function doesn't get recreated on every render (especially if it's passed down as a prop to child components).
+2. When you're dealing with performance issues related to unnecessary re-renders caused by a function being recreated each time.
+const handleClick = useCallback(() => {
+  // some logic
+}, [dependencies]);  // memoized function will only be recreated if dependencies change
+
+2. useMemo
+useMemo is used to memoize values (not functions), ensuring that expensive calculations don't run on every render unless the dependencies change. It's useful when you need to perform some computation that is costly or may result in unnecessary re-renders.
+When to use:
+When you need to optimize performance for expensive calculations or operations.
+When you want to avoid recalculating a value unless a specific dependency has changed.
+
+const computedValue = useMemo(() => expensiveComputation(input), [input]);
+// expensiveComputation will only be recalculated if 'input' changes
+
+3. React.memo
+built in HOC
+React.memo is a higher-order component that memoizes a component. It prevents unnecessary re-renders of a component if the props passed to it have not changed. This is useful for functional components that render the same output for the same input.
+When to use:
+When you have a child component that renders the same output given the same props.
+When you want to avoid unnecessary re-renders of a component because its props haven’t changed (e.g., rendering large lists, components with heavy UI, etc.).
+Virtual DOM: A virtual, in-memory representation of the Real DOM
+
+// Parcel
+Parcel is a zero-config web application bundler that makes it easy to bundle, transform, and optimize JavaScript, CSS, HTML, images, and other assets for web applications.
+It supports code splitting (splitting the code into smaller chunks) and tree shaking (removing unused code) for better performance in production.
+uses Babel behind the scenes to transpile JSX into JS.
+Parcel uses tree shaking to remove unused code in production builds. This reduces the size of your bundles by eliminating unnecessary code.
+Parcel supports Hot Module Replacement (HMR) by default, which means that when you make changes to your code during development, only the modified parts of the app are updated in the browser without a full page reload.
+Code splitting is the process of breaking your application into smaller, more manageable chunks, so only the necessary code is loaded on demand.
+
+// react-dom is browser specific library that allows react to manipulate browser dom. render elements to web browser. react-dom  is all about what to render and where to render.
+// react library 1. creates the elements 2. Creating UIs  3. Linking components togethter.
+
+// const [houses,setHouses]=useState(housesArray);
+   const [counter,setCounter]=useState(0)
+   behind the scene react store states internally using arrays here, [[{..},{..}],counter] 
+   first index will store houses array
+   second index will have counter value
+
+   pure function is a function that always return  the same result as long as it have same parameters.
+
+   useEffect usecase example--> 
+   API interaction
+   Use browser api's (e.g. document,window)
+   timing function
+
+   ref hook: persits values that survives re-renders without causing rerender.
+   on each rerender, the function object is recreated, creating a new reference.  
+
+   When custom hook is reused, the state for each call is isolated.That means if useHouse will be used 2 different components, they will get their own states.
+
+
+// optimisation in React
+1. fixing over rendering  -- can be solved by react.memo  API
+2. priortizing state update -- priortizing stage updates with react API calls useDeferredValue and useTransition. 
+
+// useDeferredValue  -- allows you to defer the update of a value until the browser is idle. 
+example-- ek input text me jb bhi type krne k liye key press krte h toh component rerender hota. 
+// useTransition
+
+ // there are 8 ways to handle state:
+ 1. URL -- current app location/ setting
+ 2. web storage -- persits states between reloads -- cookies, localStorage, IndexedDB. eg: shopping cart, partially completed form data.
+ 3. Local state -- store state inside a react component. eg: forms
+ 4. lifted state-- declare state in parent component and pass state to child via props.
+ 5. Derived state-- derive state form existing state/props
+ 6. Refs:  hold DOM element reference , state that is not displayed.
+ 7. Context: global/ broadly used state and functions.
+ 8. Third party state: Redux, mobX, react-query
+
+
+ // hooks are rendered in the order they are written.
+ // hooks can not be declared inside a function/if-else/loops.
+
+// arrow functions are not hoisted.
+
+
+
+// function for deep copy Javascript 
+// skip index in map 
+// this in arrow function
+
+//ye sb pdna h
+//Event loop
+//Promises
+//Fetch
+//Axios
+//API Calls
+//HTTP
+//Strings
+
+lodash.js
+real use case call, bind, apply (class based comp)
+event loop
+debounce / throttle
+
+
+// Okta auth 
+// Auth 2.0
+// token expirations
+// analytics
+// static code analysis
+// geo locations apis
+// thunk is middleware in redux 
+
