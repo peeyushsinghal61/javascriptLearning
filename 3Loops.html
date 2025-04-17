@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LOOPS IN JAVASCRIPT</title>
+    <script>
+      function showFor() {
+        for (let i = 0; i <= 10; i++) {
+          document.write(i + "<br>"); //0 1 2 3 .....10
+        }
+      }
+
+      function showWhile() {
+        let i = 0;
+        while (i <= 10) {
+          document.write(i + "<br>"); //0 1 2 3....10
+          i++; //1
+        }
+      }
+
+      function showDoWhile() {
+        let i = 0;
+        do {
+          document.write(i + "<br>"); //0 1 2 10
+          i++; //1
+        } while (i <= 10);
+      }
+
+      function showDifference() {
+        let i = 11;
+        while (i <= 10) {
+          document.write(i + "<br>");
+          document.write("This is from while loop");
+        }
+        //do while
+        do {
+          document.write(i + "<br>");
+          document.write("This is from do while loop");
+        } while (i <= 10);
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="showFor()">FOR</button>
+    <button onclick="showWhile()">WHILE</button>
+    <button onclick="showDoWhile()">DO WHILE</button>
+    <button onclick="showDifference()">DIFFERENCE</button>
+  </body>
+</html>

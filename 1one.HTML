@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IF ELSE IF STATEMENT</title>
+    <script>
+        function showMessage(){
+            var scoreObtained = document.getElementById('score').value;
+            var Message;
+ 
+            if(scoreObtained>=75){
+                if(scoreObtained <=100){
+                    Message = 'Excellent'
+                }else{
+                    Message = 'Invalid Score'
+                }
+            }
+            else if(scoreObtained >=50 && scoreObtained <75){
+            Message = 'Very Good';
+           
+        }else {
+            Message = 'Should have done better';
+        }
+        alert(`
+        Hello User,
+        ${Message}!!
+        `)
+        }
+    </script>
+</head>
+<body>
+    <b>Enter Score : </b>&nbsp;
+    <input type="number" id="score" placeholder="enter your score">
+    <button onclick="showMessage()">Show</button>
+</body>
+</html>
